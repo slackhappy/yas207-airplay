@@ -1,6 +1,6 @@
 ## YAS-207 Rasberry Pi Airplay
 
-A slimmed down version of [wejn.org's airplay for the YAS-207 soundbar](https://wejn.org/2021/04/yas-207-bluetooth-protocol-reversed/) using just analog audio and IR commands.
+A slimmed down version of [wejn.org's airplay for the YAS-207 soundbar](https://wejn.org/2021/04/yas-207-bluetooth-protocol-reversed/) using just analog audio and IR commands.  I also used [Gordon Turner's Raspberry Pi IR Transmitter](https://blog.gordonturner.com/2020/06/10/raspberry-pi-ir-transmitter/) as a reference.
 
 ## Hardware setup
 
