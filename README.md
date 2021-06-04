@@ -2,6 +2,9 @@
 
 A slimmed down version of [wejn.org's airplay for the YAS-207 soundbar](https://wejn.org/2021/04/yas-207-bluetooth-protocol-reversed/) using just analog audio and IR commands.  I also used [Gordon Turner's Raspberry Pi IR Transmitter](https://blog.gordonturner.com/2020/06/10/raspberry-pi-ir-transmitter/) as a reference.
 
+
+These instructions could easily be adapted to any other sound bar or receiver.  The only thing specific to the YAS-207 are the `ir-ctl` codes.
+
 ## Hardware setup
 
 <img src="yas207_shairport_setup.jpg" width="400">
@@ -12,11 +15,16 @@ A slimmed down version of [wejn.org's airplay for the YAS-207 soundbar](https://
 
 ## Create an image
 
-Create the raspberry pi OS Lite disk image.  Mount the SD card somewhere, and add an `ssh` file to the `boot` volume.  Also alter `config.txt` file in the `boot` volume to uncomment this line:
+Create the [Raspberry pi OS Lite](https://www.raspberrypi.org/software/) disk image  if you use the Raspberry Pi Imager, it is Raspberry Pi OS (Other) category.  Mount the SD card somewhere (remove and reinsert the card after writing), and add an `ssh` file to the `boot` volume.  Also alter `config.txt` file in the `boot` volume to uncomment this line:
 
 ```
 dtoverlay=gpio-ir-tx,gpio_pin=18
 ```
+
+
+## Setting up the Software
+
+The rest of these instructions are run on the Pi itself, either by SSHing to it or connecting a keyboard.
 
 
 ## Fix SSH interactivity
@@ -54,17 +62,17 @@ ir-ctl -S nec:0x78d1 # analog
 
 ## Install shairport-sync
 
-[https://github.com/mikebrady/shairport-sync/blob/master/INSTALL.md](https://github.com/mikebrady/shairport-sync/blob/master/INSTALL.md)
+You should follow the standard install instructions, which are actually tailored for the Raspberry Pi already: [https://github.com/mikebrady/shairport-sync/blob/master/INSTALL.md](https://github.com/mikebrady/shairport-sync/blob/master/INSTALL.md)
 
-Currently:
+Here's a short version of the steps at the time I ran it:
 
-install deps:
+Install deps:
 
 ```
 sudo apt-get install build-essential git xmltoman autoconf automake libtool libpopt-dev libconfig-dev libasound2-dev avahi-daemon libavahi-client-dev libssl-dev libsoxr-dev
 ```
 
-download/build/install shairport-sync:
+Download/build/install shairport-sync:
  
 ```
 $ git clone https://github.com/mikebrady/shairport-sync.git
@@ -73,6 +81,13 @@ $ autoreconf -fi
 $ ./configure --sysconfdir=/etc --with-alsa --with-soxr --with-avahi --with-ssl=openssl --with-systemd
 $ make
 $ sudo make install
+```
+
+Enable service:
+
+```
+sudo systemctl enable shairport-sync
+systemctl start shairport-sync
 ```
 
 ## Configure shairport-sync
