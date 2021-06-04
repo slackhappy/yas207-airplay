@@ -4,8 +4,10 @@ A slimmed down version of [wejn.org's airplay for the YAS-207 soundbar](https://
 
 ## Hardware setup
 
+<img src="yas207_shairport_setup.jpg" width="400">
+
 - Connect an audio cable from the Raspberry Pi's headphone jack to the input audio jack of the YAS-207
-- Connect an [IR led](https://www.adafruit.com/product/387) to GPIO 18 and ground.  On one of the legs, attach a 47-200 ohm resistor.  Use enough wire for the IR LED to reach the front of the YAS-207.
+- Connect an [IR led](https://www.adafruit.com/product/387) (I actually clipped the emitter side off of an [IR repeater](https://www.amazon.com/Infrared-Extender-Repeater-Emitters-Receiver/dp/B07DS74691) I had lying about) to GPIO 18 and Ground.  On one of the legs, attach a 47-200 ohm resistor.  Use enough wire for the IR LED to reach the front of the YAS-207.
 
 
 ## Create an image
@@ -111,8 +113,8 @@ contents of `/home/pi/shairport-start.sh`:
 #!/bin/sh
 
 ir-ctl -S nec:0x787e # turn on, regardless of on/off
-sleep 6
-ir-ctl -S nec:0x78d1 # analog
+sleep 6  # approx how long it takes for the YAS-207 to "boot"
+ir-ctl -S nec:0x78d1 # switch to analog input
 ```
 
 make sure it is executable:
